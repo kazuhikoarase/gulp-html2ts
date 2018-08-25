@@ -1,0 +1,16 @@
+{
+  "name": "gulp-html2ts",
+  "version": "0.0.1",
+  "author": "Kazuhiko Arase",
+  "main": "index.js",
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/kazuhikoarase/gulp-html2ts.git"
+  },
+  "bugs": {
+    "url": "https://github.com/kazuhikoarase/gulp-html2ts/issues"
+  },
+  "license": "MIT",
+  "devDependencies": {
+  }
+}
