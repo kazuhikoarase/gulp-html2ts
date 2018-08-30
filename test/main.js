@@ -12,15 +12,31 @@ it('empty', function(done) {
   done();
 });
 
+const inhtml = new Buffer('<div></div>');
+const expected = 'namespace a.b.c { export var test = `<div></div>`; }';
+
 it('single string', function(done) {
 
-  var src = new File({ path : 'a/b/c/test.html', contents : new Buffer('<div></div>') });
-  var stream = html2tsPlugin();
-  stream.on('data', function(dst) {
-    String(dst.contents).should.equal('namespace a.b.c { export var test = `<div></div>`; }');
-  });
-  stream.write(src);
-  stream.end();
+
+  !function() {
+    var src = new File({ path : 'a/b/c/test.html', contents : inhtml });
+    var stream = html2tsPlugin();
+    stream.on('data', function(dst) {
+      String(dst.contents).should.equal(expected);
+    });
+    stream.write(src);
+    stream.end();
+  }();
+
+  !function() {
+    var src = new File({ path : 'a\\b\\c\\test.html', contents : inhtml });
+    var stream = html2tsPlugin();
+    stream.on('data', function(dst) {
+      String(dst.contents).should.equal(expected);
+    });
+    stream.write(src);
+    stream.end();
+  }();
 
   done();
 });
