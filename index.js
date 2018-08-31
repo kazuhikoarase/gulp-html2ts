@@ -8,25 +8,30 @@ const path = require('path');
 
 const PLUGIN_NAME = 'gulp-html2ts';
 const nsRe = new RegExp(path.sep.replace(/\\/g, '\\\\'), 'g')
+const trimRe = /\s*>\s*/g;
 
 module.exports = function(opts) {
   return through.obj(function(file, enc, cb) {
     if (file.isNull()) {
     } else if (file.isBuffer() ) {
-      var parsed = path.parse(file.relative);
-      var ns = parsed.dir.replace(nsRe, '.');
-      var name = parsed.name;
+      var parsedPath = path.parse(file.relative);
+      var ns = parsedPath.dir.replace(nsRe, '.');
+      var name = parsedPath.name;
+      var contents = file.contents;
+      contents = Buffer.from(String(contents).replace(trimRe, '>') );
       if (ns) {
+        // some namespace
         file.contents = Buffer.concat([
           Buffer.from(`namespace ${ns} { export var ${name} = `),
           Buffer.from('`'),
-          file.contents,
+          contents,
           Buffer.from('`; }')] );
       } else {
+        // default(root) namespace
         file.contents = Buffer.concat([
           Buffer.from(`var ${name} = `),
           Buffer.from('`'),
-          file.contents,
+          contents,
           Buffer.from('`;')] );
       }
     } else if (file.isStream()) {

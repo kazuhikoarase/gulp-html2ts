@@ -12,31 +12,30 @@ it('empty', function(done) {
   done();
 });
 
-const inhtml = new Buffer('<div></div>');
+const contents = '<div > \n</div  >';
 const expected = 'namespace a.b.c { export var test = `<div></div>`; }';
 
+var doTest = function(path, contents, expected) {
+  var src = new File({ path : path, contents : new Buffer(contents) });
+  var stream = html2tsPlugin();
+  stream.on('data', function(dst) {
+    String(dst.contents).should.equal(expected);
+  });
+  stream.write(src);
+  stream.end();
+};
+
+it('default(root) package', function(done) {
+  doTest('test.html', contents, 'var test = `<div></div>`;');
+  done();
+});
+
 it('single string', function(done) {
+  doTest('a/b/c/test.html', contents, expected);
+  done();
+});
 
-
-  !function() {
-    var src = new File({ path : 'a/b/c/test.html', contents : inhtml });
-    var stream = html2tsPlugin();
-    stream.on('data', function(dst) {
-      String(dst.contents).should.equal(expected);
-    });
-    stream.write(src);
-    stream.end();
-  }();
-
-  !function() {
-    var src = new File({ path : 'a\\b\\c\\test.html', contents : inhtml });
-    var stream = html2tsPlugin();
-    stream.on('data', function(dst) {
-      String(dst.contents).should.equal(expected);
-    });
-    stream.write(src);
-    stream.end();
-  }();
-
+it('single string(win)', function(done) {
+  doTest('a\\b\\c\\test.html', contents, expected);
   done();
 });
