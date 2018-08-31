@@ -11,7 +11,7 @@ const PLUGIN_NAME = 'gulp-html2ts';
 const nsRe = new RegExp(path.sep.replace(/\\/g, '\\\\'), 'g')
 
 const trimRe1 = /\s*\n\s*/g;
-const trimRe2 = /\s*>\s*/g;
+const trimRe2 = /\s*\/?>\s*/g;
 const trimRe3 = /\s+</g;
 
 module.exports = function(opts) {
