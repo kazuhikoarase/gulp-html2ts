@@ -12,8 +12,8 @@ it('empty', function(done) {
   done();
 });
 
-const contents = '<div > \n</div  >';
-const expected = 'namespace a.b.c { export var test = `<div></div>`; }';
+const contents = '<div \n@test="@@@" > \n</div  >';
+const expected = 'namespace a.b.c { export var test = `<div @test="@@@"></div>`; }';
 
 var doTest = function(path, contents, expected) {
   var src = new File({ path : path, contents : new Buffer(contents) });
@@ -26,7 +26,7 @@ var doTest = function(path, contents, expected) {
 };
 
 it('default(root) package', function(done) {
-  doTest('test.html', contents, 'var test = `<div></div>`;');
+  doTest('test.html', contents, 'var test = `<div @test="@@@"></div>`;');
   done();
 });
 

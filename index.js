@@ -8,7 +8,8 @@ const path = require('path');
 
 const PLUGIN_NAME = 'gulp-html2ts';
 const nsRe = new RegExp(path.sep.replace(/\\/g, '\\\\'), 'g')
-const trimRe = /\s*>\s*/g;
+const trimRe1 = /\s*\n\s*/g;
+const trimRe2 = /\s*>\s*/g;
 
 module.exports = function(opts) {
   return through.obj(function(file, enc, cb) {
@@ -18,7 +19,8 @@ module.exports = function(opts) {
       var ns = parsedPath.dir.replace(nsRe, '.');
       var name = parsedPath.name;
       var contents = file.contents;
-      contents = Buffer.from(String(contents).replace(trimRe, '>') );
+      contents = Buffer.from(String(contents).
+          replace(trimRe1, '\u0020').replace(trimRe2, '>') );
       if (ns) {
         // some namespace
         file.contents = Buffer.concat([
