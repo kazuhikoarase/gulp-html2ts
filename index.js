@@ -7,9 +7,12 @@ const through = require('through2');
 const path = require('path');
 
 const PLUGIN_NAME = 'gulp-html2ts';
+
 const nsRe = new RegExp(path.sep.replace(/\\/g, '\\\\'), 'g')
+
 const trimRe1 = /\s*\n\s*/g;
 const trimRe2 = /\s*>\s*/g;
+const trimRe3 = /\s+</g;
 
 module.exports = function(opts) {
   return through.obj(function(file, enc, cb) {
@@ -20,7 +23,12 @@ module.exports = function(opts) {
       var name = parsedPath.name;
       var contents = file.contents;
       contents = Buffer.from(String(contents).
-          replace(trimRe1, '\u0020').replace(trimRe2, '>') );
+          // trim ws + \n + ws to single space.
+          replace(trimRe1, '\u0020').
+          // trim each side spaces.
+          replace(trimRe2, '>').
+          // trim leading spaces.
+          replace(trimRe3, '<') );
       if (ns) {
         // some namespace
         file.contents = Buffer.concat([

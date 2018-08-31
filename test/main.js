@@ -6,14 +6,9 @@ const File = require('vinyl');
 const html2tsPlugin = require('../');
 
 it('empty', function(done) {
-
   ''.should.equal('');
-
   done();
 });
-
-const contents = '<div \n@test="@@@" > \n</div  >';
-const expected = 'namespace a.b.c { export var test = `<div @test="@@@"></div>`; }';
 
 var doTest = function(path, contents, expected) {
   var src = new File({ path : path, contents : new Buffer(contents) });
@@ -26,16 +21,22 @@ var doTest = function(path, contents, expected) {
 };
 
 it('default(root) package', function(done) {
-  doTest('test.html', contents, 'var test = `<div @test="@@@"></div>`;');
+  doTest('test.html',
+      '   <div \n@test="@@@" > \n</div  >  ',
+      'var test = `<div @test="@@@"></div>`;');
   done();
 });
 
 it('single string', function(done) {
-  doTest('a/b/c/test.html', contents, expected);
+  doTest('a/b/c/test.html',
+      '   <div \n@test="@@@" > \n</div  >  ',
+      'namespace a.b.c { export var test = `<div @test="@@@"></div>`; }');
   done();
 });
 
 it('single string(win)', function(done) {
-  doTest('a\\b\\c\\test.html', contents, expected);
+  doTest('a\\b\\c\\test.html',
+      '   <div \n@test="@@@" > \n</div  >  ',
+      'namespace a.b.c { export var test = `<div @test="@@@"></div>`; }');
   done();
 });
