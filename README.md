@@ -14,7 +14,7 @@ MyView.html
 ### Output
 
 ```typescript
-namespace a.b.c { export var MyView = `<div></div>` }
+namespace a.b.c { export var MyView = `<div></div>`; }
 ```
 
 ## Usage
