@@ -1,8 +1,10 @@
 gulp-html2ts
 ===
-This plugin make html to typescript.
+This plugin filter html to typescript.
 
 ### Input
+
+MyView.html
 
 ```html
 <div>
@@ -12,7 +14,7 @@ This plugin make html to typescript.
 ### Output
 
 ```typescript
-namespace a.b.c { export var `<div></div>` }
+namespace a.b.c { export var MyView = `<div></div>` }
 ```
 
 ## Usage
@@ -22,6 +24,8 @@ With merge-stream and gulp-rename plugin, append htmls to typescript source set.
 ```javascript
 gulp.src('src/main/ts/**/*.ts')
 ```
+
+In this case, FooBar.html filtered to _FooBar.html.ts
 
 ```javascript
 const mergeStream = require('merge-stream');
