@@ -19,11 +19,11 @@ namespace a.b.c { export var `<div></div>` }
 
 With merge-stream and gulp-rename plugin, append htmls to typescript source set.
 
-```typescript
+```javascript
 gulp.src('src/main/ts/**/*.ts')
 ```
 
-```typescript
+```javascript
 const mergeStream = require('merge-stream');
 const rename = require('gulp-rename');
 const html2ts = require('gulp-html2ts');
