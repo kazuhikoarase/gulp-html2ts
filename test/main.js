@@ -10,9 +10,9 @@ it('empty', function(done) {
   done();
 });
 
-var doTest = function(path, contents, expected) {
+var doTest = function(path, contents, expected, opts) {
   var src = new File({ path : path, contents : new Buffer(contents) });
-  var stream = html2tsPlugin();
+  var stream = html2tsPlugin(opts);
   stream.on('data', function(dst) {
     String(dst.contents).should.equal(expected);
   });
@@ -40,3 +40,12 @@ it('single string(win)', function(done) {
       'namespace a.b.c { export var test = `<div @test="@@@"></div>`; }');
   done();
 });
+
+it('single string(no trimming)', function(done) {
+  doTest('a/b/c/test.html',
+      '   <div \n@test="@@@" > \n</div  >  ',
+      'namespace a.b.c { export var test = `   <div \n@test="@@@" > \n</div  >  `; }',
+      { trimWhitespaces : false });
+  done();
+});
+

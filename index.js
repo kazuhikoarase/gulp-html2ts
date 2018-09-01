@@ -14,7 +14,29 @@ const trimRe1 = /\s*\n\s*/g;
 const trimRe2 = /\s*\/?>\s*/g;
 const trimRe3 = /\s+</g;
 
+var trimWhitespaces = function(src) {
+  return Buffer.from(String(src).
+      // trim ws + \n + ws to single space.
+      replace(trimRe1, '\u0020').
+      // trim each side spaces.
+      replace(trimRe2, '>').
+      // trim leading spaces.
+      replace(trimRe3, '<') );
+};
+
+var extend = function(target, base) {
+  for (var k in base) {
+    if (typeof target[k] == 'undefined') {
+      target[k] = base[k];
+    }
+  }
+  return target;
+};
+
 module.exports = function(opts) {
+  opts = extend(opts || {}, {
+    trimWhitespaces : true
+  });
   return through.obj(function(file, enc, cb) {
     if (file.isNull()) {
     } else if (file.isBuffer() ) {
@@ -22,13 +44,9 @@ module.exports = function(opts) {
       var ns = parsedPath.dir.replace(nsRe, '.');
       var name = parsedPath.name;
       var contents = file.contents;
-      contents = Buffer.from(String(contents).
-          // trim ws + \n + ws to single space.
-          replace(trimRe1, '\u0020').
-          // trim each side spaces.
-          replace(trimRe2, '>').
-          // trim leading spaces.
-          replace(trimRe3, '<') );
+      if (opts.trimWhitespaces) {
+        contents = trimWhitespaces(contents);
+      }
       if (ns) {
         // some namespace
         file.contents = Buffer.concat([
