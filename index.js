@@ -1,5 +1,7 @@
 //
-// html2ts
+// gulp-html2ts
+//
+// Copyright (c) 2018 Kazuhiko Arase
 //
 
 const PluginError = require('plugin-error');
