@@ -11,17 +11,17 @@ const PLUGIN_NAME = 'gulp-html2ts';
 const nsRe = new RegExp(path.sep.replace(/\\/g, '\\\\'), 'g')
 
 const trimRe1 = /\s*\n\s*/g;
-const trimRe2 = /\s*\/?>\s*/g;
-const trimRe3 = /\s+</g;
+const trimRe2 = /\s*(\/?>)\s*/g;
+const trimRe3 = /\s+(<)/g;
 
 var trimWhitespaces = function(src) {
   return Buffer.from(String(src).
       // trim ws + \n + ws to single space.
       replace(trimRe1, '\u0020').
       // trim each side spaces.
-      replace(trimRe2, '>').
+      replace(trimRe2, '$1').
       // trim leading spaces.
-      replace(trimRe3, '<') );
+      replace(trimRe3, '$1') );
 };
 
 var extend = function(target, base) {

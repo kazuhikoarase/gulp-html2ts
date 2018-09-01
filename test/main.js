@@ -22,8 +22,8 @@ var doTest = function(path, contents, expected, opts) {
 
 it('default(root) package', function(done) {
   doTest('test.html',
-      '   <div \n@test="@@@" > \n</div  >  ',
-      'var test = `<div @test="@@@"></div>`;');
+      '   <div \n@test="@@@" > \n <br   /> </div  >  ',
+      'var test = `<div @test="@@@"><br/></div>`;');
   done();
 });
 
