@@ -4,7 +4,7 @@ This plugin filter html to typescript.
 
 ### Input
 
-MyView.html
+src/main/ts/a/b/c/MyView.html
 
 ```html
 <div>
@@ -25,7 +25,7 @@ With merge-stream and gulp-rename plugin, append htmls to typescript source set.
 gulp.src('src/main/ts/**/*.ts')
 ```
 
-In this case, FooBar.html filtered to _FooBar.html.ts
+In this case, MyView.html filtered to _MyView.html.ts
 
 ```javascript
 const mergeStream = require('merge-stream');
