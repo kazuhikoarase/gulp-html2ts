@@ -2,14 +2,14 @@ gulp-html2ts
 ===
 This plugin make html to typescript.
 
-Before
+### Input
 
 ```html
 <div>
 </div>
 ```
 
-After
+### Output
 
 ```typescript
 namespace a.b.c { export var `<div></div>` }
